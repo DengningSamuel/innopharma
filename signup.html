@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create a new Innopharma account">
+    <meta name="theme-color" content="#39ff14">
+    <title>Innopharma | Sign Up</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Left Side - Branding -->
+        <div class="auth-side auth-branding">
+            <div class="brand-content">
+                <h1><img src="landing page/real_logo.jpg" alt="Innopharma Logo" class="brand-logo"></h1>
+                <p>Easy access to medicine in Cameroon</p>
+            </div>
+        </div>
+
+        <!-- Right Side - Form -->
+        <div class="auth-side auth-form">
+            <div class="form-wrapper">
+                <h2>Create Account</h2>
+                <p class="form-subtitle">Join thousands of users finding medicines easily</p>
+
+                <form id="signupForm" class="auth-form-group">
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input 
+                            type="text" 
+                            id="fullname" 
+                            name="fullname" 
+                            placeholder="John Doe"
+                            required
+                            aria-label="Full name"
+                        >
+                        <small>Please enter your name exactly as shown on your ID card.</small>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="you@example.com"
+                            required
+                            aria-label="Email address"
+                        >
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            placeholder="+237 6XX XXX XXX"
+                            required
+                            aria-label="Phone number"
+                        >
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                placeholder="••••••••"
+                                required
+                                aria-label="Password"
+                            >
+                            <button type="button" class="toggle-password" onclick="togglePassword('password')">👁️</button>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                name="confirmPassword" 
+                                placeholder="••••••••"
+                                required
+                                aria-label="Confirm password"
+                            >
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</button>
+                        </div>
+                    </div>
+
+                    <!-- Terms & Conditions -->
+                    <div class="form-group checkbox">
+                        <input 
+                            type="checkbox" 
+                            id="terms" 
+                            name="terms" 
+                            required
+                            aria-label="Accept terms and conditions"
+                        >
+                        <label for="terms">I agree to the <a href="#" target="_blank">Terms & Conditions</a> and <a href="#" target="_blank">Privacy Policy</a></label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary btn-large">Create Account</button>
+                </form>
+
+                <!-- Sign In Link -->
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="signin.html">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
