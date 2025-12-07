@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to your Innopharma account">
+    <meta name="theme-color" content="#39ff14">
+    <title>Innopharma | Sign In</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Left Side - Branding -->
+        <div class="auth-side auth-branding">
+            <div class="brand-content">
+               <h1> <img src="landing page/real_logo.jpg" alt="Innopharma Logo" class="brand-logo"></h1>
+                <p>Easy access to medicine in Cameroon</p>
+            </div>
+        </div>
+
+        <!-- Right Side - Form -->
+        <div class="auth-side auth-form">
+            <div class="form-wrapper">
+                <h2>Welcome Back</h2>
+                <p class="form-subtitle">Sign in to your Innopharma account</p>
+
+                <form id="signinForm" class="auth-form-group">
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="you@example.com"
+                            required
+                            aria-label="Email address"
+                        >
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                placeholder="••••••••"
+                                required
+                                aria-label="Password"
+                            >
+                            <button type="button" class="toggle-password" onclick="togglePassword('password')">👁️</button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="form-options">
+                        <div class="checkbox">
+                            <input type="checkbox" id="remember" name="remember" aria-label="Remember me">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary btn-large">Sign In</button>
+                </form>
+
+                <!-- Social Sign In -->
+                <div class="social-divider">
+                    <span>Or continue with</span>
+                </div>
+
+                <div class="social-buttons">
+                    <button type="button" class="btn-social" onclick="alert('Google sign-in coming soon')">
+                        <span>🔷</span> Google
+                    </button>
+                    <button type="button" class="btn-social" onclick="alert('Facebook sign-in coming soon')">
+                        <span>📘</span> Facebook
+                    </button>
+                </div>
+
+                <!-- Sign Up Link -->
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
