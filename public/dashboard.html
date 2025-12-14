@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Innopharma</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Innopharma Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="/public/LP.html">Home</a></li>
+            <li><a href="/public/inventory.html">Inventory</a></li>
+            <li><a href="/public/medecines.html">Medicines</a></li>
+            <li><a href="/public/pharmacies.html">Pharmacies</a></li>
+            <li><a href="/public/users.html">Users</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="dashboard-widgets">
+            <div class="widget" id="users-widget">
+                <h2>Users</h2>
+                <p id="users-count">Loading...</p>
+            </div>
+            <div class="widget" id="medicines-widget">
+                <h2>Medicines</h2>
+                <p id="medicines-count">Loading...</p>
+            </div>
+            <div class="widget" id="pharmacies-widget">
+                <h2>Pharmacies</h2>
+                <p id="pharmacies-count">Loading...</p>
+            </div>
+            <div class="widget" id="inventory-widget">
+                <h2>Inventory</h2>
+                <p id="inventory-count">Loading...</p>
+            </div>
+        </section>
+    </main>
+    <script src="dashboard.js"></script>
+</body>
+</html>
