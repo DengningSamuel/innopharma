@@ -1,5 +1,15 @@
 // auth.js - Sign In & Sign Up Functionality
 
+// Check if already logged in and redirect to dashboard
+function checkIfLoggedIn() {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+        window.location.href = 'dashboard.html';
+        return true;
+    }
+    return false;
+}
+
 // Toggle Password Visibility
 function togglePassword(fieldId) {
   const input = document.getElementById(fieldId);
@@ -17,7 +27,7 @@ function togglePassword(fieldId) {
 // Sign Up Form Handler
 const signupForm = document.getElementById('signupForm');
 if (signupForm) {
-  signupForm.addEventListener('submit', (e) => {
+  signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const fullname = document.getElementById('fullname').value;
@@ -43,8 +53,8 @@ if (signupForm) {
       return;
     }
 
-    if (password.length < 6) {
-      showError('Password must be at least 6 characters long');
+    if (password.length < 8) {
+      showError('Password must be at least 8 characters long');
       return;
     }
 
@@ -58,18 +68,41 @@ if (signupForm) {
       return;
     }
 
-    // Simulate successful registration
-    showSuccess('Account created successfully! Redirecting to sign in...');
-    setTimeout(() => {
-      window.location.href = 'signin.html';
-    }, 2000);
+    try {
+      const response = await fetch('/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: email,
+          email: email,
+          password: password,
+          full_name: fullname,
+          phone: phone
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        showSuccess('Account created successfully! Redirecting to sign in...');
+        setTimeout(() => {
+          window.location.href = 'signin.html';
+        }, 2000);
+      } else {
+        showError(data.error || 'Registration failed');
+      }
+    } catch (error) {
+      showError('Network error. Please try again.');
+    }
   });
 }
 
 // Sign In Form Handler
 const signinForm = document.getElementById('signinForm');
 if (signinForm) {
-  signinForm.addEventListener('submit', (e) => {
+  signinForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const email = document.getElementById('email').value;
@@ -86,11 +119,35 @@ if (signinForm) {
       return;
     }
 
-    // Simulate successful login
-    showSuccess('Sign in successful! Redirecting to dashboard...');
-    setTimeout(() => {
-      window.location.href = 'dashboard.html';
-    }, 2000);
+    try {
+      const response = await fetch('/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: email,
+          password: password
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        // Store the JWT token
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        showSuccess('Sign in successful! Redirecting to dashboard...');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 2000);
+      } else {
+        showError(data.error || 'Login failed');
+      }
+    } catch (error) {
+      showError('Network error. Please try again.');
+    }
   });
 }
 
@@ -216,4 +273,9 @@ document.addEventListener('keypress', (e) => {
       }
     }
   }
+});
+
+// Check if already logged in on page load
+document.addEventListener('DOMContentLoaded', () => {
+  checkIfLoggedIn();
 });
