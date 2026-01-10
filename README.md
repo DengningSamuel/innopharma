@@ -17,6 +17,44 @@ git clone https://github.com/koumbo-ryans/innopharma
 cd innopharma
 In the next weeks,we will have to
 2. Configure the Database
+   - Ensure your MySQL database has a `users` table with the following fields:
+     - `user_id` (INT, PRIMARY KEY, AUTO_INCREMENT)
+     - `username` (VARCHAR, UNIQUE)
+     - `email` (VARCHAR, UNIQUE)
+     - `password_hash` (VARCHAR)
+     - `full_name` (VARCHAR)
+     - `phone` (VARCHAR)
+     - `address` (VARCHAR)
+     - `profile` (JSON) -- for flexible user profile/settings storage
+     - `role` (VARCHAR, default 'user') -- for RBAC
+     - `is_verified` (BOOLEAN, default false)
+     - `created_at` (TIMESTAMP, default CURRENT_TIMESTAMP)
+     - `updated_at` (TIMESTAMP, auto-update)
+   - Example SQL:
+     ```sql
+     CREATE TABLE users (
+       user_id INT AUTO_INCREMENT PRIMARY KEY,
+       username VARCHAR(50) NOT NULL UNIQUE,
+       email VARCHAR(100) NOT NULL UNIQUE,
+       password_hash VARCHAR(255) NOT NULL,
+       full_name VARCHAR(100),
+       phone VARCHAR(20),
+       address VARCHAR(255),
+       profile JSON,
+       role VARCHAR(20) DEFAULT 'user',
+       is_verified BOOLEAN DEFAULT FALSE,
+       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+     );
+     ```
+## Backend Security & Architecture Notes
+
+- Passwords are hashed with bcrypt (cost factor 12).
+- JWT is used for authentication; store the token securely (e.g., HTTP-only cookie or Authorization header).
+- Role-based access control (RBAC) is implemented for admin/user separation.
+- User profile/settings are stored as flexible JSON in the `profile` field.
+- All profile updates are partial (PATCH) and validated server-side.
+- Use HTTPS in production and keep your JWT secret safe (set `JWT_SECRET` in environment variables).
 3. Install Dependencies
 4. Run the Application
 # Innovapharma Landing Page
