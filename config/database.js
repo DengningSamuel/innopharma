@@ -1,13 +1,16 @@
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'Password00',
-    database: 'innopharma_db',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || 'innopharma_db',
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    acquireTimeout: 60000,
+    timeout: 60000,
+    reconnect: true
 });
 
 pool.getConnection((err, connection) => {
