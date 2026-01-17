@@ -41,7 +41,7 @@ function LandingPage() {
 
           <button
             className="SignUp_style"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/signin")}
           >
             Log In
           </button>
