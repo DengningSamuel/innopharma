@@ -1,0 +1,123 @@
+.records-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+.records-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.records-header h1 {
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.records-header p {
+  margin: 0.25rem 0 0;
+  color: #606873;
+}
+
+.records-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.records-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.summary-card {
+  padding: 1rem;
+  border: 1px solid #e0e4ea;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.summary-card span {
+  display: block;
+  font-size: 0.85rem;
+  color: #606873;
+}
+
+.summary-card strong {
+  font-size: 1.6rem;
+  color: #1f2937;
+}
+
+.records-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+}
+
+.records-table th,
+.records-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+.records-table th {
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  background: #f3f4f6;
+}
+
+.records-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.records-table td small {
+  display: block;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.status-pill.is-false {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.records-empty,
+.records-error {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.records-error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.records-footer {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
