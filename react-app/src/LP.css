@@ -194,6 +194,12 @@ header .SignUp .SignUp_style:active {
   font-size: clamp(0.95rem, 2vw, 1.1rem);
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 /* The Main CTA Button */
 .doctor_text button {
   background-color: var(--primary-color);
@@ -221,6 +227,12 @@ header .SignUp .SignUp_style:active {
 
 .doctor_text button:active {
   transform: translateY(-1px);
+}
+
+.doctor_text button.secondary {
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
 }
 
 /* HERO IMAGE AREA */

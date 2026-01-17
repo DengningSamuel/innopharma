@@ -56,7 +56,17 @@ function LandingPage() {
             Innopharma connects patients and pharmacies all over Cameroon.
             Find drugs, compare availability, and order from trusted pharmacies.
           </p>
-          <button>Start Searching</button>
+          <div className="hero-actions">
+            <button onClick={() => navigate("/pharmacies")}>
+              Browse Pharmacies
+            </button>
+            <button
+              className="secondary"
+              onClick={() => navigate("/medicines")}
+            >
+              View Medicines
+            </button>
+          </div>
         </div>
 
         <div className="doctor_image">
