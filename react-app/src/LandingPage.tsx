@@ -61,7 +61,7 @@ function LandingPage() {
 
         <div className="doctor_image">
           <div className="image_placeholder">
-            <img src={hero} alt="Healthcare professional" />
+            <img className="hero-img" src={hero} alt="Healthcare professional" />
           </div>
         </div>
       </section>
