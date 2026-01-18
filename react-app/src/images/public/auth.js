@@ -69,7 +69,7 @@ if (signupForm) {
     }
 
     try {
-      const response = await fetch('/users/register', {
+      const response = await fetch(getApiUrl(API_CONFIG.ENDPOINTS.REGISTER), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -120,7 +120,7 @@ if (signinForm) {
     }
 
     try {
-      const response = await fetch('/users/login', {
+      const response = await fetch(getApiUrl(API_CONFIG.ENDPOINTS.LOGIN), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
