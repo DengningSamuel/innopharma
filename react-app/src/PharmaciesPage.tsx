@@ -1,8 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./RecordsPage.css";
+import royal from "./images/public/royal-pharm.jpeg";
+import limbe from "./images/public/limbe-pharm.jpg";
+import palais from "./images/public/palais.jpg";
+import glory from "./images/public/glorypharm.png";
+import fallback from "./images/public/image.png";
 
-type Pharmacy = {
+type PharmacyRecord = {
   pharmacy_id: number;
   name: string;
   address: string;
@@ -13,27 +18,158 @@ type Pharmacy = {
   created_at?: string;
 };
 
+type PharmacyCard = {
+  pharmacy_id: number | string;
+  name: string;
+  address: string;
+  phone?: string;
+  image?: string;
+};
+
 type ApiResponse<T> = {
   count?: number;
   data?: T[];
   error?: string;
 };
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "/api";
+const LANDING_URL =
+  import.meta.env.VITE_LANDING_URL ?? "http://localhost:5000/public/LP.html";
 
-const formatBoolean = (value: Pharmacy["is_verified"]) => {
-  if (typeof value === "boolean") {
-    return value;
-  }
-  if (typeof value === "number") {
-    return value === 1;
-  }
-  return false;
+const imageByName: Record<string, string> = {
+  "Royal Pharmacy": royal,
+  "Limbe Pharmacy": limbe,
+  "Pharmacy du Palais": palais,
+  "Glory Pharmacy": glory,
 };
 
+const featuredPharmacies: PharmacyCard[] = [
+  {
+    pharmacy_id: "featured-adama",
+    name: "ADAMA Pharmacy",
+    address: "Ngaoundere",
+  },
+  {
+    pharmacy_id: "featured-africa",
+    name: "AFRICA Pharmacy",
+    address: "Douala",
+  },
+  {
+    pharmacy_id: "featured-aida",
+    name: "AIDA Pharmacy",
+    address: "Bafia",
+  },
+  {
+    pharmacy_id: "featured-almarkaz",
+    name: "ALMARKAZ Pharmacy",
+    address: "Kousseri",
+  },
+  {
+    pharmacy_id: "featured-amazing-company",
+    name: "AMAZING COMPANY Pharmacy",
+    address: "Buea",
+  },
+  {
+    pharmacy_id: "featured-ambre",
+    name: "AMBRE Pharmacy",
+    address: "Edea",
+  },
+  {
+    pharmacy_id: "featured-amen",
+    name: "AMEN Pharmacy",
+    address: "Bamenda",
+  },
+  {
+    pharmacy_id: "featured-amitie",
+    name: "AMITIE Pharmacy",
+    address: "Garoua",
+  },
+  {
+    pharmacy_id: "featured-amitie-ndjamena",
+    name: "AMITIE NDJAMENA Pharmacy",
+    address: "Ndjamena",
+  },
+  {
+    pharmacy_id: "featured-beatitude",
+    name: "BEATITUDE Pharmacy",
+    address: "Yaounde",
+  },
+  {
+    pharmacy_id: "featured-bell",
+    name: "BELL Pharmacy",
+    address: "Douala",
+  },
+  {
+    pharmacy_id: "featured-bertaud",
+    name: "BERTAUD Pharmacy",
+    address: "Douala",
+  },
+  {
+    pharmacy_id: "featured-bethesda",
+    name: "BETHESDA Pharmacy",
+    address: "Yaounde",
+  },
+  {
+    pharmacy_id: "featured-bien-etre",
+    name: "BIEN ETRE Pharmacy",
+    address: "Yaounde",
+  },
+  {
+    pharmacy_id: "featured-bien-etre-mbouda",
+    name: "BIEN-ETRE MBOUDA Pharmacy",
+    address: "Mbouda",
+  },
+  {
+    pharmacy_id: "featured-binam",
+    name: "BINAM Pharmacy",
+    address: "Bafoussam",
+  },
+  {
+    pharmacy_id: "featured-biwole-abondo",
+    name: "BIWOLE ABONDO Pharmacy",
+    address: "Yaounde",
+  },
+  {
+    pharmacy_id: "featured-biyemassi",
+    name: "BIYEMASSI Pharmacy",
+    address: "Yaounde",
+  },
+  {
+    pharmacy_id: "featured-black-star",
+    name: "BLACK STAR Pharmacy",
+    address: "Bamenda",
+  },
+  {
+    pharmacy_id: "featured-royal",
+    name: "Royal Pharmacy",
+    address: "Buea, Great Soppo",
+    image: royal,
+  },
+  {
+    pharmacy_id: "featured-limbe",
+    name: "Limbe Pharmacy",
+    address: "Limbe, Mile One",
+    image: limbe,
+  },
+  {
+    pharmacy_id: "featured-palais",
+    name: "Pharmacy du Palais",
+    address: "Yaounde, Etoudi",
+    image: palais,
+  },
+  {
+    pharmacy_id: "featured-glory",
+    name: "Glory Pharmacy",
+    address: "Tiko",
+    image: glory,
+  },
+];
+
 const PharmaciesPage = () => {
-  const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
-  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [pharmacies, setPharmacies] = useState<PharmacyCard[]>([]);
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "error" | "fallback"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -46,20 +182,29 @@ const PharmaciesPage = () => {
         if (!response.ok) {
           throw new Error("Failed to load pharmacies.");
         }
-        const payload = (await response.json()) as ApiResponse<Pharmacy>;
+        const payload = (await response.json()) as ApiResponse<PharmacyRecord>;
         if (!isActive) {
           return;
         }
-        setPharmacies(payload.data ?? []);
+        const apiCards =
+          payload.data?.map((pharmacy) => ({
+            pharmacy_id: pharmacy.pharmacy_id,
+            name: pharmacy.name,
+            address: pharmacy.address,
+            phone: pharmacy.phone,
+            image: imageByName[pharmacy.name],
+          })) ?? [];
+        setPharmacies(apiCards.length > 0 ? apiCards : featuredPharmacies);
         setStatus("idle");
       } catch (error) {
         if (!isActive) {
           return;
         }
-        setStatus("error");
+        setStatus("fallback");
         setErrorMessage(
           error instanceof Error ? error.message : "Unable to load pharmacies."
         );
+        setPharmacies(featuredPharmacies);
       }
     };
 
@@ -70,20 +215,17 @@ const PharmaciesPage = () => {
     };
   }, []);
 
-  const verifiedCount = useMemo(
-    () => pharmacies.filter((pharmacy) => formatBoolean(pharmacy.is_verified)).length,
-    [pharmacies]
-  );
+  const displayCount = useMemo(() => pharmacies.length, [pharmacies]);
 
   return (
     <div className="records-page">
       <header className="records-header">
         <div>
           <h1>Pharmacies</h1>
-          <p>Browse registered pharmacies and their verification status.</p>
+          <p>Discover nearby pharmacies and where to find them.</p>
         </div>
         <div className="records-actions">
-          <Link to="/">Back to Landing</Link>
+          <a href={LANDING_URL}>Back to Landing</a>
           <Link to="/medicines">View Medicines</Link>
         </div>
       </header>
@@ -91,15 +233,11 @@ const PharmaciesPage = () => {
       <section className="records-summary">
         <div className="summary-card">
           <span>Total pharmacies</span>
-          <strong>{pharmacies.length}</strong>
-        </div>
-        <div className="summary-card">
-          <span>Verified pharmacies</span>
-          <strong>{verifiedCount}</strong>
+          <strong>{displayCount}</strong>
         </div>
       </section>
 
-      {status === "error" && (
+      {status === "fallback" && (
         <div className="records-error">{errorMessage}</div>
       )}
 
@@ -114,41 +252,24 @@ const PharmaciesPage = () => {
       )}
 
       {pharmacies.length > 0 && (
-        <table className="records-table">
-          <thead>
-            <tr>
-              <th>Pharmacy</th>
-              <th>Contact</th>
-              <th>Registration</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pharmacies.map((pharmacy) => {
-              const isVerified = formatBoolean(pharmacy.is_verified);
-              return (
-                <tr key={pharmacy.pharmacy_id}>
-                  <td>
-                    <strong>{pharmacy.name}</strong>
-                    <small>{pharmacy.address}</small>
-                  </td>
-                  <td>
-                    {pharmacy.phone}
-                    <small>{pharmacy.email}</small>
-                  </td>
-                  <td>{pharmacy.registration_number}</td>
-                  <td>
-                    <span
-                      className={`status-pill ${isVerified ? "" : "is-false"}`}
-                    >
-                      {isVerified ? "Verified" : "Pending"}
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <section className="pharmacy-grid">
+          {pharmacies.map((pharmacy) => (
+            <article className="pharmacy-card" key={pharmacy.pharmacy_id}>
+              <img
+                src={pharmacy.image ?? imageByName[pharmacy.name] ?? fallback}
+                alt={`${pharmacy.name} storefront`}
+                className="pharmacy-image"
+              />
+              <div className="pharmacy-details">
+                <h2>{pharmacy.name}</h2>
+                <p className="pharmacy-location">{pharmacy.address}</p>
+                {pharmacy.phone && (
+                  <p className="pharmacy-contact">{pharmacy.phone}</p>
+                )}
+              </div>
+            </article>
+          ))}
+        </section>
       )}
 
       <footer className="records-footer">
