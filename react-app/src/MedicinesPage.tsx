@@ -16,7 +16,9 @@ type ApiResponse<T> = {
   error?: string;
 };
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "/api";
+const LANDING_URL =
+  import.meta.env.VITE_LANDING_URL ?? "http://localhost:5000/public/LP.html";
 
 const MedicinesPage = () => {
   const [medicines, setMedicines] = useState<Medicine[]>([]);
@@ -72,7 +74,7 @@ const MedicinesPage = () => {
           <p>Review available medicines and their generic alternatives.</p>
         </div>
         <div className="records-actions">
-          <Link to="/">Back to Landing</Link>
+          <a href={LANDING_URL}>Back to Landing</a>
           <Link to="/pharmacies">View Pharmacies</Link>
         </div>
       </header>
@@ -118,8 +120,8 @@ const MedicinesPage = () => {
                   <strong>{medicine.name}</strong>
                   <small>{medicine.description}</small>
                 </td>
-                <td>{medicine.generic_name || "—"}</td>
-                <td>{medicine.manufacturer || "—"}</td>
+                <td>{medicine.generic_name || "N/A"}</td>
+                <td>{medicine.manufacturer || "N/A"}</td>
               </tr>
             ))}
           </tbody>
