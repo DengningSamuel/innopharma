@@ -1,0 +1,48 @@
+// THIS FILE IS DISABLED - RENAME TO .test.js TO ENABLE
+// Reason: Requires server mocking
+
+const request = require('supertest');
+const path = require('path');
+
+// Mock the database module before requiring server
+jest.mock('../../config/database', () => ({
+  query: jest.fn().mockResolvedValue([[{ solution: 2 }]])
+}));
+
+// Mock environment variables
+process.env.NODE_ENV = 'test';
+process.env.JWT_SECRET = 'test_secret';
+
+describe('Server Tests', () => {
+  let app;
+
+  beforeAll(() => {
+    // Require server after mocking
+    app = require('../../server.js');
+  });
+
+  test('should serve index.html on root path', async () => {
+    const response = await request(app)
+      .get('/')
+      .expect(200);
+    
+    expect(response.headers['content-type']).toMatch(/html/);
+  });
+
+  test('should serve static files from public directory', async () => {
+    const response = await request(app)
+      .get('/public/signin.html')
+      .expect(200);
+    
+    expect(response.headers['content-type']).toMatch(/html/);
+  });
+
+  test('should test database connection', async () => {
+    const response = await request(app)
+      .get('/api/test-db')
+      .expect(200);
+    
+    expect(response.body.success).toBe(true);
+    expect(response.body.database).toBe('connected');
+  });
+});

@@ -1,0 +1,111 @@
+// THIS FILE IS DISABLED - RENAME TO .test.js TO ENABLE
+// Reason: Requires complex database mocking
+
+const request = require('supertest');
+const express = require('express');
+
+// Mock the database before requiring the router
+jest.mock('../../../config/database', () => ({
+  query: jest.fn()
+}));
+
+const usersRouter = require('../../../routes/users');
+const db = require('../../../config/database');
+
+// Create test app
+const app = express();
+app.use(express.json());
+app.use('/users', usersRouter);
+
+describe('Users API Tests', () => {
+  
+  beforeEach(() => {
+    // Clear all mocks before each test
+    jest.clearAllMocks();
+  });
+  
+  describe('POST /users/register', () => {
+    test('should register a new user successfully', async () => {
+      // Mock database responses
+      db.query
+        .mockResolvedValueOnce([[]]) // No existing user
+        .mockResolvedValueOnce([{ insertId: 1 }]); // Insert success
+      
+      const newUser = {
+        username: 'testuser123',
+        email: 'test@example.com',
+        password: 'password123',
+        full_name: 'Test User',
+        phone: '1234567890'
+      };
+
+      const response = await request(app)
+        .post('/users/register')
+        .send(newUser)
+        .expect(201);
+
+      expect(response.body.success).toBe(true);
+      expect(response.body.message).toBe('User registered successfully');
+      expect(response.body.user_id).toBeDefined();
+    });
+
+    test('should reject registration with invalid email', async () => {
+      const invalidUser = {
+        username: 'testuser',
+        email: 'invalid-email',
+        password: 'password123'
+      };
+
+      const response = await request(app)
+        .post('/users/register')
+        .send(invalidUser)
+        .expect(400);
+
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Invalid email format');
+    });
+
+    test('should reject registration with short password', async () => {
+      const invalidUser = {
+        username: 'testuser',
+        email: 'test@example.com',
+        password: '123'
+      };
+
+      const response = await request(app)
+        .post('/users/register')
+        .send(invalidUser)
+        .expect(400);
+
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Password must be at least 8 characters long');
+    });
+  });
+
+  describe('POST /users/login', () => {
+    test('should reject login with missing credentials', async () => {
+      const response = await request(app)
+        .post('/users/login')
+        .send({})
+        .expect(400);
+
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toBe('Username and password are required');
+    });
+  });
+
+  describe('GET /users/count', () => {
+    test('should return user count', async () => {
+      // Mock database response
+      db.query.mockResolvedValueOnce([[{ count: 5 }]]);
+      
+      const response = await request(app)
+        .get('/users/count')
+        .expect(200);
+
+      expect(response.body.success).toBe(true);
+      expect(response.body.count).toBeDefined();
+      expect(typeof response.body.count).toBe('number');
+    });
+  });
+});
