@@ -1,11 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./RecordsPage.css";
+import adama from "./images/public/ADAMA.jpg";
+import africa from "./images/public/Africa.jpg";
+import ambre from "./images/public/Ambre pharmacy.jpg";
+import almakaz from "./images/public/Almakaz.jpg";
+import amazing from "./images/public/Amazing pharmacy.jpg";
 import royal from "./images/public/royal-pharm.jpeg";
 import limbe from "./images/public/limbe-pharm.jpg";
 import palais from "./images/public/palais.jpg";
 import glory from "./images/public/glorypharm.png";
 import fallback from "./images/public/image.png";
+
 
 type PharmacyRecord = {
   pharmacy_id: number;
@@ -41,6 +47,7 @@ const imageByName: Record<string, string> = {
   "Limbe Pharmacy": limbe,
   "Pharmacy du Palais": palais,
   "Glory Pharmacy": glory,
+  
 };
 
 const featuredPharmacies: PharmacyCard[] = [
@@ -48,119 +55,152 @@ const featuredPharmacies: PharmacyCard[] = [
     pharmacy_id: "featured-adama",
     name: "ADAMA Pharmacy",
     address: "Ngaoundere",
+    phone: "+237 6 77 88 99 00",
+    image: adama,
   },
   {
     pharmacy_id: "featured-africa",
     name: "AFRICA Pharmacy",
     address: "Douala",
+    phone: "+237 6 78 90 12 34",
+    image: africa,
   },
   {
     pharmacy_id: "featured-aida",
     name: "AIDA Pharmacy",
     address: "Bafia",
+    phone: "+237 6 79 01 23 45",
+    image: palais,
   },
   {
     pharmacy_id: "featured-almarkaz",
     name: "ALMARKAZ Pharmacy",
     address: "Kousseri",
+    phone: "+237 6 80 12 34 56",
+    image: almakaz,
   },
   {
     pharmacy_id: "featured-amazing-company",
     name: "AMAZING COMPANY Pharmacy",
     address: "Buea",
+    phone: "+237 6 81 23 45 67",
+    image: amazing,
   },
   {
     pharmacy_id: "featured-ambre",
     name: "AMBRE Pharmacy",
     address: "Edea",
+    phone: "+237 6 82 34 56 78",
+    image: ambre,
   },
   {
     pharmacy_id: "featured-amen",
     name: "AMEN Pharmacy",
     address: "Bamenda",
+    phone: "+237 6 83 45 67 89",
+    image: almakaz,
   },
   {
     pharmacy_id: "featured-amitie",
     name: "AMITIE Pharmacy",
     address: "Garoua",
+    phone: "+237 6 84 56 78 90",
+    image: africa,
   },
   {
     pharmacy_id: "featured-amitie-ndjamena",
     name: "AMITIE NDJAMENA Pharmacy",
     address: "Ndjamena",
+    phone: "+237 6 85 67 89 01",
+    image: adama,
   },
   {
     pharmacy_id: "featured-beatitude",
     name: "BEATITUDE Pharmacy",
     address: "Yaounde",
+    phone: "+237 6 86 78 90 12",
+    image: limbe,
   },
   {
     pharmacy_id: "featured-bell",
     name: "BELL Pharmacy",
     address: "Douala",
+    phone: "+237 6 87 89 01 23",
   },
   {
     pharmacy_id: "featured-bertaud",
     name: "BERTAUD Pharmacy",
     address: "Douala",
+    phone: "+237 6 88 90 12 34",
   },
   {
     pharmacy_id: "featured-bethesda",
     name: "BETHESDA Pharmacy",
     address: "Yaounde",
+    phone: "+237 6 89 01 23 45",
   },
   {
     pharmacy_id: "featured-bien-etre",
     name: "BIEN ETRE Pharmacy",
     address: "Yaounde",
+    phone: "+237 6 90 12 34 56",
   },
   {
     pharmacy_id: "featured-bien-etre-mbouda",
     name: "BIEN-ETRE MBOUDA Pharmacy",
     address: "Mbouda",
+    phone: "+237 6 91 23 45 67",
   },
   {
     pharmacy_id: "featured-binam",
     name: "BINAM Pharmacy",
     address: "Bafoussam",
+    phone: "+237 6 92 34 56 78",
   },
   {
     pharmacy_id: "featured-biwole-abondo",
     name: "BIWOLE ABONDO Pharmacy",
     address: "Yaounde",
+    phone: "+237 6 93 45 67 89",
   },
   {
     pharmacy_id: "featured-biyemassi",
     name: "BIYEMASSI Pharmacy",
     address: "Yaounde",
+    phone: "+237 6 94 56 78 90",
   },
   {
     pharmacy_id: "featured-black-star",
     name: "BLACK STAR Pharmacy",
     address: "Bamenda",
+    phone: "+237 6 95 67 89 01",
   },
   {
     pharmacy_id: "featured-royal",
     name: "Royal Pharmacy",
     address: "Buea, Great Soppo",
+    phone: "+237 6 96 78 90 12",
     image: royal,
   },
   {
     pharmacy_id: "featured-limbe",
     name: "Limbe Pharmacy",
     address: "Limbe, Mile One",
+    phone: "+237 6 97 89 01 23",
     image: limbe,
   },
   {
     pharmacy_id: "featured-palais",
     name: "Pharmacy du Palais",
     address: "Yaounde, Etoudi",
+    phone: "+237 6 98 90 12 34",
     image: palais,
   },
   {
     pharmacy_id: "featured-glory",
     name: "Glory Pharmacy",
     address: "Tiko",
+    phone: "+237 6 99 01 23 45",
     image: glory,
   },
 ];
@@ -266,6 +306,12 @@ const PharmaciesPage = () => {
                 {pharmacy.phone && (
                   <p className="pharmacy-contact">{pharmacy.phone}</p>
                 )}
+                <button 
+                  className="location-btn"
+                  onClick={() => window.open('https://www.google.com/maps/dir//The+Glory+Pharmacy,+39M5%2BM4W,+Tiko/@4.1476634,9.2896475,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x10613723d615b5df:0x80e5833d469b26a7!2m2!1d9.357834!2d4.0842333?entry=ttu&g_ep=EgoyMDI2MDIwMy4wIKXMDSoASAFQAw%3D%3D', '_blank')}
+                >
+                  Location
+                </button>
               </div>
             </article>
           ))}

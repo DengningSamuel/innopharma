@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import PharmaciesPage from "./PharmaciesPage";
 import MedicinesPage from "./MedicinesPage";
+import Signup from "./Signup";
+import Signin from "./Signin";
 
 const LANDING_URL =
   import.meta.env.VITE_LANDING_URL ?? "http://localhost:5000/public/LP.html";
@@ -20,6 +22,8 @@ function App() {
       <Route path="/" element={<LandingRedirect />} />
       <Route path="/pharmacies" element={<PharmaciesPage />} />
       <Route path="/medicines" element={<MedicinesPage />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/signin" element={<Signin />} />
     </Routes>
   );
 }

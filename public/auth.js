@@ -1,15 +1,5 @@
 // auth.js - Sign In & Sign Up Functionality
 
-// Check if already logged in and redirect to pharmacies
-function checkIfLoggedIn() {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-        window.location.href = 'http://localhost:5173/pharmacies';
-        return true;
-    }
-    return false;
-}
-
 // Toggle Password Visibility
 function togglePassword(fieldId) {
   const input = document.getElementById(fieldId);
@@ -89,7 +79,7 @@ if (signupForm) {
         showSuccess('Account created successfully! Redirecting to sign in...');
         setTimeout(() => {
           window.location.href = 'signin.html';
-        }, 2000);
+        }, 1500);
       } else {
         showError(data.error || 'Registration failed');
       }
@@ -138,10 +128,10 @@ if (signinForm) {
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         
-        showSuccess('Sign in successful! Redirecting to pharmacies...');
+        showSuccess('Sign in successful! Redirecting to dashboard...');
         setTimeout(() => {
-          window.location.href = 'http://localhost:5173/pharmacies';
-        }, 2000);
+          window.location.href = 'dashboard.html';
+        }, 1500);
       } else {
         showError(data.error || 'Login failed');
       }
@@ -273,9 +263,4 @@ document.addEventListener('keypress', (e) => {
       }
     }
   }
-});
-
-// Check if already logged in on page load
-document.addEventListener('DOMContentLoaded', () => {
-  checkIfLoggedIn();
 });

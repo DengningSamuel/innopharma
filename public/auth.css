@@ -36,8 +36,6 @@ body {
 .auth-container {
   display: flex;
   min-height: 100vh;
-  max-height: 100vh;
-  overflow: hidden;
 }
 
 /* Auth Sides */
@@ -47,6 +45,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
+  overflow-y: auto;
 }
 
 /* Branding Side */
@@ -91,6 +90,7 @@ body {
 .form-wrapper {
   width: 100%;
   max-width: 420px;
+  padding: 20px 0;
 }
 
 .form-wrapper h2 {
